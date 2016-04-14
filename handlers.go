@@ -34,6 +34,76 @@ func RespondBadRequest(w http.ResponseWriter, message string) {
 	_ = json.NewEncoder(w).Encode(errorResponse)
 }
 
+func Hello(w http.ResponseWriter, r *http.Request) {
+	log.WithFields(log.Fields{
+		"time": time.Now(),
+	}).Info("Received hello request")
+
+	var requestData models.Hello 
+	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
+
+	if err != nil {
+		RespondBadRequest(w, err.Error())
+		return
+	}
+
+	if err := r.Body.Close(); err != nil {
+		RespondBadRequest(w, err.Error())
+		return
+	}
+
+	if err := json.Unmarshal(body, &requestData); err != nil {
+		w.WriteHeader(422) // unprocessable entity
+		if err := json.NewEncoder(w).Encode(err); err != nil {
+			panic(err)
+		}
+	}
+
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+
+ 	helloResponse := PerformHello(requestData)
+	if err := json.NewEncoder(w).Encode(helloResponse); err != nil {
+		RespondBadRequest(w, err.Error())
+		return
+	}
+
+}
+func Attack(w http.ResponseWriter, r *http.Request) {
+	log.WithFields(log.Fields{
+		"time": time.Now(),
+	}).Info("Received attack request")
+
+	var requestData models.Attack 
+	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
+
+	if err != nil {
+		RespondBadRequest(w, err.Error())
+		return
+	}
+
+	if err := r.Body.Close(); err != nil {
+		RespondBadRequest(w, err.Error())
+		return
+	}
+
+	if err := json.Unmarshal(body, &requestData); err != nil {
+		w.WriteHeader(422) // unprocessable entity
+		if err := json.NewEncoder(w).Encode(err); err != nil {
+			panic(err)
+		}
+	}
+
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+
+ 	attackResponse := PerformAttack(requestData)
+	if err := json.NewEncoder(w).Encode(attackResponse); err != nil {
+		RespondBadRequest(w, err.Error())
+		return
+	}
+
+}
 func Poll(w http.ResponseWriter, r *http.Request) {
 	log.WithFields(log.Fields{
 		"time": time.Now(),
@@ -62,7 +132,7 @@ func Poll(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 
- 	pollResponse := PollResponse{CanAttack: false, State: state}
+ 	pollResponse := PerformPoll(requestData)
 	if err := json.NewEncoder(w).Encode(pollResponse); err != nil {
 		RespondBadRequest(w, err.Error())
 		return
