@@ -21,7 +21,7 @@ Adds a player, returns state
 #### Hello monster
 POST /hello-monster
 {"monster": monster}
-Adds a monster, returns state
+Adds a monster, returns state. this state will be fresh (no characters other than the monsters).
 
 #### Attack
 POST /attack
@@ -32,4 +32,4 @@ Does an attack of "damage" to the identifier, returns the state.
 #### Poll
 POST /poll
 {"id": identifier}
-Returns {"can_attack": true/false, "state": state}, true if it is ready to take another attack, otherwise false.
+Returns {"can_attack": true/false, "state": state}, true if identifier can take another attack, otherwise false.
