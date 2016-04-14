@@ -8,6 +8,9 @@ import (
 	"github.com/rs/cors"
 )
 
+var (
+	state models.State
+)
 
 func main() {
 	port := os.Getenv("PORT")
