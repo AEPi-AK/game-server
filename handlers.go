@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"time"
-	"io"
 
 	log "github.com/Sirupsen/logrus"
 )
@@ -31,10 +30,12 @@ func Poll(w http.ResponseWriter, r *http.Request) {
 	log.WithFields(log.Fields{
 		"time": time.Now(),
 	}).Info("Received poll request")
-	// TODO complete me
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
-	io.WriteString(w, "Hello world!")	
+	if err := json.NewEncoder(w).Encode(state); err != nil {
+		RespondBadRequest(w, err.Error())
+		return
+	}
 
 }
