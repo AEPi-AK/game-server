@@ -14,6 +14,14 @@ type ErrorResponse struct {
 	Error string `json:"error"`
 }
 
+type HelloResponse struct {
+	State models.State `json:"state"`
+}
+
+type AttackResponse struct {
+ 	State models.State `json:"state"`
+}
+
 type PollResponse struct {
 	CanAttack bool `json:"can_attack"`
 	State models.State `json:"state"`
