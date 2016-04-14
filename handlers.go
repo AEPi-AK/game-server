@@ -16,6 +16,19 @@ type ErrorResponse struct {
 	Error string `json:"error"`
 }
 
+type HelloResponse struct {
+	State models.State `json:"state"`
+}
+
+type AttackResponse struct {
+ 	State models.State `json:"state"`
+}
+
+type PollResponse struct {
+	CanAttack bool `json:"can_attack"`
+	State models.State `json:"state"`
+}
+
 // Given a message, responds with a JSON object containing that message 
 // as an error string/
 func RespondBadRequest(w http.ResponseWriter, message string) {
@@ -58,7 +71,9 @@ func Poll(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
-	if err := json.NewEncoder(w).Encode(state); err != nil {
+
+ 	pollResponse := PollResponse{CanAttack: false, State: state}
+	if err := json.NewEncoder(w).Encode(pollResponse); err != nil {
 		RespondBadRequest(w, err.Error())
 		return
 	}

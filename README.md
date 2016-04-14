@@ -20,7 +20,7 @@ Adds a player, returns state
 
 #### Attack
 POST /attack
-{"damage": int, "id": id}
+{"damage": int, "attacker": attacker_id, "target": target_id}
 Does an attack of "damage" to the identifier, returns the state.
 
 
