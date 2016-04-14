@@ -11,6 +11,9 @@ import (
 
 var (
 	state models.State
+	monsterTurn bool
+	player1Attacked bool
+	player2Attacked bool
 )
 
 func main() {
