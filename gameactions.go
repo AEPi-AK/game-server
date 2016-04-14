@@ -39,9 +39,9 @@ func PerformHello(hello models.Hello) models.State {
 	var mutex = &sync.Mutex{}
 	mutex.Lock()
 	
-	if (strings.EqualFold(state.Player1.ID, "")) {
+	if (hello.PlayerNum == 1 && strings.EqualFold(state.Player1.ID, "")) {
 		state.Player1 = hello.Player
-	} else if (strings.EqualFold(state.Player2.ID, "")) {
+	} else if (hello.PlayerNum == 2 && strings.EqualFold(state.Player2.ID, "")){
 		state.Player2 = hello.Player
 	}
 

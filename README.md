@@ -15,7 +15,7 @@ The server will return the state of the game on most endpoints. The state will b
 ### Messages to the server
 #### Hello
 POST /hello
-{"player": player}
+{"player": player, "player_number": 1/2}
 Adds a player, returns state
 
 #### Hello monster
