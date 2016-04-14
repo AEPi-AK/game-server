@@ -21,6 +21,7 @@ func RespondBadRequest(w http.ResponseWriter, message string) {
 		"time":    time.Now(),
 		"message": message,
 	}).Error("Received a bad request")
+
 	errorResponse := ErrorResponse{Error: message}
 	http.Error(w, "", http.StatusBadRequest)
 	_ = json.NewEncoder(w).Encode(errorResponse)

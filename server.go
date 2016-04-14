@@ -6,6 +6,7 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/rs/cors"
+	"github.com/AEPi-AK/game-server/models"
 )
 
 var (
