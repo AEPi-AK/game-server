@@ -15,8 +15,6 @@ func PerformAttack(attack models.Attack) models.State {
 		state.Player1.Hitpoints = state.Player1.Hitpoints - attack.Damage
 	} else if (strings.EqualFold(state.Player2.ID, attack.Target)) {
 		state.Player2.Hitpoints = state.Player2.Hitpoints - attack.Damage
-	} else if (strings.EqualFold(state.Player2.ID, attack.Target)) {
-		state.Monster.Hitpoints = state.Monster.Hitpoints - attack.Damage
 	}
 
 	mutex.Unlock()
@@ -65,6 +63,19 @@ func PerformPoll(poll models.Poll) PollResponse {
 	return PollResponse{CanAttack: canAttack, State: state}
 }
 
-func PerformHelloMonster(hello-monster models.HelloMonster) models.State {
+func PerformHelloMonster(helloMonster models.HelloMonster) models.State {
+	var mutex = &sync.Mutex{}
+	mutex.Lock()
+	
+	state.Monster = helloMonster.Monster
+
+	state.Player1.ID = ""
+	state.Player2.ID = ""
+	monsterTurn = false
+	player1Attacked = false
+	player2Attacked = false
+	
+
+	mutex.Unlock()
 	return state
 }
