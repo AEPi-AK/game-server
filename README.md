@@ -25,7 +25,7 @@ Adds a monster, returns state. this state will be fresh (no characters other tha
 
 #### Attack
 POST /attack
-{"damage": int, "attacker": attacker_id, "target": target_id}
+{"damage": int, "attacker": attacker_id, "target": target_id, "attack_name": name}
 Does an attack of "damage" to the identifier, returns the state.
 
 

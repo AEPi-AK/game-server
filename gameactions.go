@@ -21,8 +21,11 @@ func PerformAttack(attack models.Attack) models.State {
 
 	if (strings.EqualFold(state.Player1.ID, attack.Attacker)) {
 		player1Attacked = true
+		state.Player1.LastAttackUsed = attack.Attack
+
 	} else if (strings.EqualFold(state.Player2.ID, attack.Attacker)) {
 		player2Attacked = true
+		state.Player2.LastAttackUsed = attack.Attack
 	} else if (strings.EqualFold(state.Monster.ID, attack.Attacker)) {
 		monsterTurn = false
 	}
