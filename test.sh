@@ -12,8 +12,27 @@ curl -H "Content-Type: application/json" -d '{"player": {"id": "everi", "hitpoin
 echo If ben gets added something went horribly wrong
 curl -H "Content-Type: application/json" -d '{"player": {"id": "ben", "hitpoints": 100, "defense": 10}}' http://localhost:8000/hello
 
-echo Both players should be able to attack
+echo Both players should be able to attack, the monster shouldnt be able to attack
 curl -H "Content-Type: application/json" -d '{"id": "jordan"}' http://localhost:8000/poll
 curl -H "Content-Type: application/json" -d '{"id": "everi"}' http://localhost:8000/poll
-echo The monster shouldnt be able to attack
+curl -H "Content-Type: application/json" -d '{"id": "scary monster"}' http://localhost:8000/poll
+
+echo Player 1 attack
+curl -H "Content-Type: application/json" -d '{"attacker":"jordan", "target": "scary monster", "damage": 10}' http://localhost:8000/attack
+echo Player 1 should not be able to attack
+curl -H "Content-Type: application/json" -d '{"id": "jordan"}' http://localhost:8000/poll
+echo But player 2 should, monster still shouldnt
+curl -H "Content-Type: application/json" -d '{"id": "everi"}' http://localhost:8000/poll
+curl -H "Content-Type: application/json" -d '{"id": "scary monster"}' http://localhost:8000/poll
+echo Have player 2 attack. Now monster should be able to attack and both players shouldnt
+curl -H "Content-Type: application/json" -d '{"attacker":"everi", "target": "scary monster", "damage": 10}' http://localhost:8000/attack
+curl -H "Content-Type: application/json" -d '{"id": "jordan"}' http://localhost:8000/poll
+curl -H "Content-Type: application/json" -d '{"id": "everi"}' http://localhost:8000/poll
+curl -H "Content-Type: application/json" -d '{"id": "scary monster"}' http://localhost:8000/poll
+
+echo Have the monster attack
+curl -H "Content-Type: application/json" -d '{"attacker":"scary monster", "target": "everi", "damage": 50}' http://localhost:8000/attack
+echo Now monster shouldnt be able to attack but players should
+curl -H "Content-Type: application/json" -d '{"id": "jordan"}' http://localhost:8000/poll
+curl -H "Content-Type: application/json" -d '{"id": "everi"}' http://localhost:8000/poll
 curl -H "Content-Type: application/json" -d '{"id": "scary monster"}' http://localhost:8000/poll
