@@ -18,14 +18,14 @@ curl -H "Content-Type: application/json" -d '{"id": "everi"}' http://localhost:8
 curl -H "Content-Type: application/json" -d '{"id": "scary monster"}' http://localhost:8000/poll
 
 echo Player 1 attack
-curl -H "Content-Type: application/json" -d '{"attacker":"jordan", "target": "scary monster", "damage": 10}' http://localhost:8000/attack
+curl -H "Content-Type: application/json" -d '{"attacker":"jordan", "target": "scary monster", "damage": 10, "attack_name": "slash"}' http://localhost:8000/attack
 echo Player 1 should not be able to attack
 curl -H "Content-Type: application/json" -d '{"id": "jordan"}' http://localhost:8000/poll
 echo But player 2 should, monster still shouldnt
 curl -H "Content-Type: application/json" -d '{"id": "everi"}' http://localhost:8000/poll
 curl -H "Content-Type: application/json" -d '{"id": "scary monster"}' http://localhost:8000/poll
 echo Have player 2 attack. Now monster should be able to attack and both players shouldnt
-curl -H "Content-Type: application/json" -d '{"attacker":"everi", "target": "scary monster", "damage": 10}' http://localhost:8000/attack
+curl -H "Content-Type: application/json" -d '{"attacker":"everi", "target": "scary monster", "damage": 10, "attack_name": "stab"}' http://localhost:8000/attack
 curl -H "Content-Type: application/json" -d '{"id": "jordan"}' http://localhost:8000/poll
 curl -H "Content-Type: application/json" -d '{"id": "everi"}' http://localhost:8000/poll
 curl -H "Content-Type: application/json" -d '{"id": "scary monster"}' http://localhost:8000/poll
