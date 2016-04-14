@@ -15,16 +15,16 @@ The server will return the state of the game on most endpoints. The state will b
 ### Messages to the server
 #### Hello
 POST /hello
-{type: "hello", "player": player}
+{"player": player}
 Adds a player, returns state
 
 #### Attack
 POST /attack
-{type: "attack", "damage": int, "id": id}
+{"damage": int, "id": id}
 Does an attack of "damage" to the identifier, returns the state.
 
 
 #### Poll
 POST /poll
-{type: "poll", "id": identifier}
+{"id": identifier}
 Returns {"can_attack": true/false, "state": state}, true if it is ready to take another attack, otherwise false.
