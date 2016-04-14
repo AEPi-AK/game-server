@@ -69,6 +69,43 @@ func Hello(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+func HelloMonster(w http.ResponseWriter, r *http.Request) {
+	log.WithFields(log.Fields{
+		"time": time.Now(),
+	}).Info("Received hello monster request")
+
+	var requestData models.HelloMonster
+	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
+
+	if err != nil {
+		RespondBadRequest(w, err.Error())
+		return
+	}
+
+	if err := r.Body.Close(); err != nil {
+		RespondBadRequest(w, err.Error())
+		return
+	}
+
+	if err := json.Unmarshal(body, &requestData); err != nil {
+		w.WriteHeader(422) // unprocessable entity
+		if err := json.NewEncoder(w).Encode(err); err != nil {
+			panic(err)
+		}
+	}
+
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+
+ 	helloMonsterResponse := PerformHelloMonster(requestData)
+	if err := json.NewEncoder(w).Encode(helloMonsterResponse); err != nil {
+		RespondBadRequest(w, err.Error())
+		return
+	}
+
+}
+
 func Attack(w http.ResponseWriter, r *http.Request) {
 	log.WithFields(log.Fields{
 		"time": time.Now(),
@@ -104,6 +141,7 @@ func Attack(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
 func Poll(w http.ResponseWriter, r *http.Request) {
 	log.WithFields(log.Fields{
 		"time": time.Now(),

@@ -24,6 +24,24 @@ func NewRouter() *mux.Router {
 			"/poll",
 			Poll,
 		},
+		Route{
+			"Hello",
+			"POST",
+			"/hello",
+			Hello,
+		},
+		Route{
+			"Attack",
+			"POST",
+			"/attack",
+			Attack,
+		},
+		Route{
+			"HelloMonster",
+			"POST",
+			"/hello-monster",
+			HelloMonster,
+		},
 	}
 
 	router := mux.NewRouter().StrictSlash(true)
