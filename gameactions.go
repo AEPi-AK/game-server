@@ -65,4 +65,6 @@ func PerformPoll(poll models.Poll) PollResponse {
 	return PollResponse{CanAttack: canAttack, State: state}
 }
 
-
+func PerformHelloMonster(hello-monster models.HelloMonster) models.State {
+	return state
+}
