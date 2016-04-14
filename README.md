@@ -18,6 +18,11 @@ POST /hello
 {"player": player}
 Adds a player, returns state
 
+#### Hello monster
+POST /hello-monster
+{"monster": monster}
+Adds a monster, returns state
+
 #### Attack
 POST /attack
 {"damage": int, "attacker": attacker_id, "target": target_id}
