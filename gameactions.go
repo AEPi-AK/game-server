@@ -12,8 +12,8 @@ func PerformHello(hello models.Hello) models.State {
 	return state
 }
 
-func PerformPoll(poll models.Poll) models.State {
-	return state
+func PerformPoll(poll models.Poll) PollResponse {
+	return PollResponse{CanAttack: false, State: state}
 }
 
 

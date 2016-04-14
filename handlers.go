@@ -16,14 +16,6 @@ type ErrorResponse struct {
 	Error string `json:"error"`
 }
 
-type HelloResponse struct {
-	State models.State `json:"state"`
-}
-
-type AttackResponse struct {
- 	State models.State `json:"state"`
-}
-
 type PollResponse struct {
 	CanAttack bool `json:"can_attack"`
 	State models.State `json:"state"`
@@ -66,8 +58,6 @@ func Poll(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 	}
-
-	log.Info(requestData)
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
