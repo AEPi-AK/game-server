@@ -2,26 +2,25 @@ package main
 
 import (
 	"encoding/json"
-	"net/http"
 	"io"
 	"io/ioutil"
+	"net/http"
 	"time"
 
-	log "github.com/Sirupsen/logrus"
 	"github.com/AEPi-AK/game-server/models"
+	log "github.com/Sirupsen/logrus"
 )
-
 
 type ErrorResponse struct {
 	Error string `json:"error"`
 }
 
 type PollResponse struct {
-	CanAttack bool `json:"can_attack"`
-	State models.State `json:"state"`
+	CanAttack bool         `json:"can_attack"`
+	State     models.State `json:"state"`
 }
 
-// Given a message, responds with a JSON object containing that message 
+// Given a message, responds with a JSON object containing that message
 // as an error string/
 func RespondBadRequest(w http.ResponseWriter, message string) {
 	log.WithFields(log.Fields{
@@ -35,7 +34,7 @@ func RespondBadRequest(w http.ResponseWriter, message string) {
 }
 
 func Hello(w http.ResponseWriter, r *http.Request) {
-	var requestData models.Hello 
+	var requestData models.Hello
 	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
 
 	if err != nil {
@@ -58,8 +57,8 @@ func Hello(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 
- 	helloResponse := PerformHello(requestData)
-	
+	helloResponse := PerformHello(requestData)
+
 	log.WithFields(log.Fields{
 		"time": time.Now(),
 		"data": helloResponse,
@@ -96,8 +95,8 @@ func HelloMonster(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 
- 	helloMonsterResponse := PerformHelloMonster(requestData)
-	
+	helloMonsterResponse := PerformHelloMonster(requestData)
+
 	log.WithFields(log.Fields{
 		"time": time.Now(),
 		"data": helloMonsterResponse,
@@ -111,7 +110,7 @@ func HelloMonster(w http.ResponseWriter, r *http.Request) {
 }
 
 func Attack(w http.ResponseWriter, r *http.Request) {
-	var requestData models.Attack 
+	var requestData models.Attack
 	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
 
 	if err != nil {
@@ -134,8 +133,8 @@ func Attack(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 
- 	attackResponse := PerformAttack(requestData)
-	
+	attackResponse := PerformAttack(requestData)
+
 	log.WithFields(log.Fields{
 		"time": time.Now(),
 		"data": attackResponse,
@@ -149,7 +148,7 @@ func Attack(w http.ResponseWriter, r *http.Request) {
 }
 
 func Poll(w http.ResponseWriter, r *http.Request) {
-	var requestData models.Poll 
+	var requestData models.Poll
 	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
 
 	if err != nil {
@@ -172,11 +171,12 @@ func Poll(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 
- 	pollResponse := PerformPoll(requestData)
-	
+	pollResponse := PerformPoll(requestData)
+
 	log.WithFields(log.Fields{
-		"time": time.Now(),
-		"data": pollResponse,
+		"time":      time.Now(),
+		"data":      pollResponse,
+		"requester": requestData.ID,
 	}).Info("Received poll request")
 
 	if err := json.NewEncoder(w).Encode(pollResponse); err != nil {
