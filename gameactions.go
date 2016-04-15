@@ -75,13 +75,19 @@ func PerformPoll(poll models.Poll) PollResponse {
 	canAttack := false
 	if isMonster && monsterTurn {
 		canAttack = true
-		isMonster = false
 		player1Attacked = false
 		player2Attacked = false
 	} else if !isMonster && (strings.EqualFold(poll.ID, state.Player1.ID) && !player1Attacked) {
 		canAttack = true
 	} else if !isMonster && (strings.EqualFold(poll.ID, state.Player2.ID) && !player2Attacked) {
 		canAttack = true
+	} else if isMonster && !monsterTurn {
+		if player1Attacked && player2Attacked {
+			canAttack = true
+			monsterTurn = true
+			player1Attacked = false
+			player2Attacked = false
+		}
 	}
 
 	mutex.Unlock()
