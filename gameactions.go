@@ -53,6 +53,12 @@ func PerformHello(hello models.Hello) models.State {
 		state.Player2 = hello.Player
 	}
 
+	if (hello.PlayerNum == 1 && !strings.EqualFold(state.Player1.ID, "")) {
+		state.Player1.Hitpoints = hello.Player.Hitpoints
+	} else if (hello.PlayerNum == 2 && !strings.EqualFold(state.Player2.ID, "")) {
+		state.Player2.Hitpoints = hello.Player.Hitpoints
+	}
+
 	mutex.Unlock()
 	return state
 }
