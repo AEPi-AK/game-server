@@ -17,8 +17,18 @@ func PerformAttack(attack models.Attack) models.State {
 
 	if (strings.EqualFold(state.Player1.ID, attack.Target)) {
 		state.Player1.Hitpoints = state.Player1.Hitpoints - attack.Damage
+		if (state.Player1.Hitpoints <= 0) {
+			state.Player1.ID = ""
+			state.Player1.Hitpoints = 0
+			state.Player1.LastAttackUsed = ""
+		}
 	} else if (strings.EqualFold(state.Player2.ID, attack.Target)) {
 		state.Player2.Hitpoints = state.Player2.Hitpoints - attack.Damage
+		if (state.Player2.Hitpoints <= 0) {
+			state.Player2.ID = ""
+			state.Player2.Hitpoints = 0
+			state.Player2.LastAttackUsed = ""
+		}
 	} else if (strings.EqualFold(state.Monster.ID, attack.Target)) {
 		state.Monster.Hitpoints = state.Monster.Hitpoints - attack.Damage
 	}
