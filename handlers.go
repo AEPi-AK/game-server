@@ -173,11 +173,11 @@ func Poll(w http.ResponseWriter, r *http.Request) {
 
 	pollResponse := PerformPoll(requestData)
 
-	log.WithFields(log.Fields{
-		"time":      time.Now(),
-		"data":      pollResponse,
-		"requester": requestData.ID,
-	}).Info("Received poll request")
+	//log.WithFields(log.Fields{
+	//	"time":      time.Now(),
+	//	"data":      pollResponse,
+	//	"requester": requestData.ID,
+	//}).Info("Received poll request")
 
 	if err := json.NewEncoder(w).Encode(pollResponse); err != nil {
 		RespondBadRequest(w, err.Error())

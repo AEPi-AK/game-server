@@ -5,6 +5,7 @@ import (
 	"sync"
 
 	"github.com/AEPi-AK/game-server/models"
+	log "github.com/Sirupsen/logrus"
 )
 
 var mutex = &sync.Mutex{}
@@ -16,22 +17,22 @@ func playersDone() bool {
 func PerformAttack(attack models.Attack) models.State {
 	mutex.Lock()
 
-	if (strings.EqualFold(state.Player1.ID, attack.Target)) {
+	if strings.EqualFold(state.Player1.ID, attack.Target) {
 		state.Player1.Hitpoints = state.Player1.Hitpoints - attack.Damage
-	} else if (strings.EqualFold(state.Player2.ID, attack.Target)) {
+	} else if strings.EqualFold(state.Player2.ID, attack.Target) {
 		state.Player2.Hitpoints = state.Player2.Hitpoints - attack.Damage
-	} else if (strings.EqualFold(state.Monster.ID, attack.Target)) {
+	} else if strings.EqualFold(state.Monster.ID, attack.Target) {
 		state.Monster.Hitpoints = state.Monster.Hitpoints - attack.Damage
 	}
 
-	if (strings.EqualFold(state.Player1.ID, attack.Attacker)) {
+	if strings.EqualFold(state.Player1.ID, attack.Attacker) {
 		player1Attacked = true
 		state.Player1.LastAttackUsed = attack.Attack
 
-	} else if (strings.EqualFold(state.Player2.ID, attack.Attacker)) {
+	} else if strings.EqualFold(state.Player2.ID, attack.Attacker) {
 		player2Attacked = true
 		state.Player2.LastAttackUsed = attack.Attack
-	} else if (strings.EqualFold(state.Monster.ID, attack.Attacker)) {
+	} else if strings.EqualFold(state.Monster.ID, attack.Attacker) {
 		monsterTurn = false
 		state.Monster.LastAttackUsed = attack.Attack
 	}
@@ -46,16 +47,16 @@ func PerformAttack(attack models.Attack) models.State {
 
 func PerformHello(hello models.Hello) models.State {
 	mutex.Lock()
-	
-	if (hello.PlayerNum == 1 && strings.EqualFold(state.Player1.ID, "")) {
+
+	if hello.PlayerNum == 1 && strings.EqualFold(state.Player1.ID, "") {
 		state.Player1 = hello.Player
-	} else if (hello.PlayerNum == 2 && strings.EqualFold(state.Player2.ID, "")){
+	} else if hello.PlayerNum == 2 && strings.EqualFold(state.Player2.ID, "") {
 		state.Player2 = hello.Player
 	}
 
-	if (hello.PlayerNum == 1 && !strings.EqualFold(state.Player1.ID, "")) {
+	if hello.PlayerNum == 1 && !strings.EqualFold(state.Player1.ID, "") {
 		state.Player1.Hitpoints = hello.Player.Hitpoints
-	} else if (hello.PlayerNum == 2 && !strings.EqualFold(state.Player2.ID, "")) {
+	} else if hello.PlayerNum == 2 && !strings.EqualFold(state.Player2.ID, "") {
 		state.Player2.Hitpoints = hello.Player.Hitpoints
 	}
 
@@ -69,11 +70,12 @@ func PerformPoll(poll models.Poll) PollResponse {
 
 	if strings.EqualFold(poll.ID, state.Monster.ID) {
 		isMonster = true
-	} 
+	}
 
 	canAttack := false
 	if isMonster && monsterTurn {
 		canAttack = true
+		log.Warn("putting false in poll")
 		player1Attacked = false
 		player2Attacked = false
 	} else if !isMonster && (strings.EqualFold(poll.ID, state.Player1.ID) && !player1Attacked) {
@@ -89,7 +91,7 @@ func PerformPoll(poll models.Poll) PollResponse {
 
 func PerformHelloMonster(helloMonster models.HelloMonster) models.State {
 	mutex.Lock()
-	
+
 	state.Monster = helloMonster.Monster
 
 	state.Player1.ID = ""
@@ -101,7 +103,7 @@ func PerformHelloMonster(helloMonster models.HelloMonster) models.State {
 	monsterTurn = false
 	player1Attacked = false
 	player2Attacked = false
-	
+	log.Warn("putting false in hello monster")
 
 	mutex.Unlock()
 	return state
