@@ -91,6 +91,10 @@ func PerformHelloMonster(helloMonster models.HelloMonster) models.State {
 
 	state.Player1.ID = ""
 	state.Player2.ID = ""
+	state.Player1.Hitpoints = 0
+	state.Player2.Hitpoints = 0
+	state.Player1.LastAttackUsed = ""
+	state.Player2.LastAttackUsed = ""
 	monsterTurn = false
 	player1Attacked = false
 	player2Attacked = false
