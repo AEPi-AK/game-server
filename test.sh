@@ -9,8 +9,6 @@ echo add player 1
 curl -H "Content-Type: application/json" -d '{"player": {"id": "everi", "hitpoints": 100}, "player_number": 1}' http://localhost:8000/hello
 
 # Ensure BEN is not added
-echo If ben gets added something went horribly wrong
-curl -H "Content-Type: application/json" -d '{"player": {"id": "ben", "hitpoints": 100}, "player_number": 1}' http://localhost:8000/hello
 
 echo Both players should be able to attack, the monster shouldnt be able to attack
 curl -H "Content-Type: application/json" -d '{"id": "jordan"}' http://localhost:8000/poll

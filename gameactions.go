@@ -7,6 +7,10 @@ import (
 	"github.com/AEPi-AK/game-server/models"
 )
 
+func playersDone() bool {
+	return player1Attacked && player2Attacked || player1Attacked && strings.EqualFold(state.Player2.ID, "") || player2Attacked && strings.EqualFold(state.Player1.ID, "")
+}
+
 func PerformAttack(attack models.Attack) models.State {
 	var mutex = &sync.Mutex{}
 	mutex.Lock()
@@ -28,9 +32,10 @@ func PerformAttack(attack models.Attack) models.State {
 		state.Player2.LastAttackUsed = attack.Attack
 	} else if (strings.EqualFold(state.Monster.ID, attack.Attacker)) {
 		monsterTurn = false
+		state.Monster.LastAttackUsed = attack.Attack
 	}
 
-	if player1Attacked && player2Attacked {
+	if playersDone() {
 		monsterTurn = true
 	}
 
